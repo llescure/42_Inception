@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image:
+      volumes:
+        restart: always
+        environment: 
+
+  services:
+    wordpress:
+      depends on:
+        - db
+        - nginx
+      image:
+        ports:
+        volumes:
+          restart: always
+          environment:
+    services:
