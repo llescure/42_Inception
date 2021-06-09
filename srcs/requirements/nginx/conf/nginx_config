@@ -1,0 +1,24 @@
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+http {
+
+	server {
+		listen     443 ssl;
+		server_name www.llescure.42.fr
+		
+		##
+		# SSL Settings
+		##
+		
+		ssl_protocols TLSv1.3;
+		ssl on;
+		ssl_certificate /etc/ssl/localhost.pem;
+		ssl_certificate_key /etc/ssl/localhost.key;
+		ssl_prefer_server_ciphers off;
+	}
+ 
+}
+
