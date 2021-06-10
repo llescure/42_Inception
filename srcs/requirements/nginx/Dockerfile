@@ -5,14 +5,17 @@ FROM debian:buster
 RUN apt-get update && apt-get -y install nginx \
 openssl
 
+#Generate a self certificate
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out /etc/ssl/llescure.42.fr.pem -keyout /etc/ssl/llescure.42.fr.key -subj "/C=FR/ST=Paris/L=Paris/O=42 School/OU=llescure/CN=llescure.42.fr"
+
 #Copy the new configuration inside nginx
-#COPY conf/nginx_config_test /etc/nginx/sites-available
+COPY conf/nginx_config /etc/nginx/sites-available
 
 #Create a symbolic link between sites-available and enabled and remove the default files
-#RUN ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled \
-#&& rm -rf /etc/nginx/sites-enabled/default \
-#&& rm -rf /etc/nginx/sites-available/default
+RUN ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled \
+&& rm -rf /etc/nginx/sites-enabled/default \
+&& rm -rf /etc/nginx/sites-available/default
 
-#EXPOSE 443
+EXPOSE 443
 
-RUN service nginx start
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,24 +1,30 @@
-user www-data;
-worker_processes auto;
-pid /run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
+server {
+	listen     443 ssl http2;
+	listen [::]:443 ssl http2; 
+	server_name llescure.42.fr;
+	root /var/www/;
+##
+# SSL Settings
+##
 
-http {
+	ssl on;
+	ssl_certificate /etc/ssl/llescure.42.fr.pem;
+	ssl_certificate_key /etc/ssl/llescure.42.fr.key;
 
-	server {
-		listen     443 ssl;
-		server_name www.llescure.42.fr
-		
-		##
-		# SSL Settings
-		##
-		
-		ssl_protocols TLSv1.3;
-		ssl on;
-		ssl_certificate /etc/ssl/localhost.pem;
-		ssl_certificate_key /etc/ssl/localhost.key;
-		ssl_prefer_server_ciphers off;
-	}
- 
+	autoindex on;
+	index index.html index.htm index.nginx-debian.html;
+
+##
+#TSL settings
+##
+
+	ssl_protocols TLSv1.3;
+	ssl_prefer_server_ciphers off;
+
+##
+#Error management
+#
+
+	error_log /var/log/nginx/error.log;
+	error_page 500 502 503 504 /50x.html;
 }
-
