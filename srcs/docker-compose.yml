@@ -1,38 +1,22 @@
 version: '3'
 services:
-  db:
-    container_name: db
+  wordpress_db:
+    container_name: wordpress_db
     build:
       context: requirements/mariadb
       dockerfile: requirements/mariadb/Dockerfile
       image: my_mariadb:v1
-      volumes: home/llescure/data
-      restart: always
-      environment: 
+      volumes:
+          - /home/llescure/data:/var/lib/mysql
+      environment:
         MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE=${MYSQL_DATABASE}
         MYSQL_USER=${MYSQL_USER}
         MYSQL_PASSWORD=${MYSQL_PASSWORD}
-  services:
-    wordpress:
-      container_name: wordpress
-      build:
-        context: requirements/wordpress
-        dockerfile: requirements/wordpress/Dockerfile
-        image: my_wordpress:v1
-      depends on:
-        - db
-        - nginx
-      ports: "443:443"
-      volumes: home/llescure/data
+      ports: "3306:3306"
       restart: always
-      environment:
-        WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
-        WORDPRESS_DB_USER={WORDPRESS_DB_USER}
-        WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
-        WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
-    services:
-      nginx:
+services:
+    nginx:
         container_name: nginx
         build:
           context: requirements/nginx
@@ -40,3 +24,22 @@ services:
           image: my_nginx:v1
         ports: "443:443"
         restart: always
+services:
+    wordpress:
+      container_name: wordpress
+      build:
+        context: requirements/wordpress
+        dockerfile: requirements/wordpress/Dockerfile
+        image: my_wordpress:v1
+      depends on:
+        - wordpress_db
+        - nginx
+      ports: "9000:9000"
+      volumes:
+          - /home/llescure/data:/var/www/html
+      restart: always
+      environment:
+        WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
+        WORDPRESS_DB_USER={WORDPRESS_DB_USER}
+        WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
+        WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
