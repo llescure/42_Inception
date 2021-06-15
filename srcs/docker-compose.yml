@@ -1,19 +1,42 @@
 version: '3'
 services:
   db:
-    image:
-      volumes:
-        restart: always
-        environment: 
-
+    container_name: db
+    build:
+      context: requirements/mariadb
+      dockerfile: requirements/mariadb/Dockerfile
+      image: my_mariadb:v1
+      volumes: home/llescure/data
+      restart: always
+      environment: 
+        MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE=${MYSQL_DATABASE}
+        MYSQL_USER=${MYSQL_USER}
+        MYSQL_PASSWORD=${MYSQL_PASSWORD}
   services:
     wordpress:
+      container_name: wordpress
+      build:
+        context: requirements/wordpress
+        dockerfile: requirements/wordpress/Dockerfile
+        image: my_wordpress:v1
       depends on:
         - db
         - nginx
-      image:
-        ports:
-        volumes:
-          restart: always
-          environment:
+      ports: "443:443"
+      volumes: home/llescure/data
+      restart: always
+      environment:
+        WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
+        WORDPRESS_DB_USER={WORDPRESS_DB_USER}
+        WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
+        WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
     services:
+      nginx:
+        container_name: nginx
+        build:
+          context: requirements/nginx
+          dockerfile: requirements/nginx/Dockerfile
+          image: my_nginx:v1
+        ports: "443:443"
+        restart: always

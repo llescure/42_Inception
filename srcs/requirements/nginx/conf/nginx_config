@@ -3,15 +3,14 @@ server {
 	listen [::]:443 ssl http2; 
 	server_name llescure.42.fr;
 	root /var/www/;
+
 ##
 # SSL Settings
 ##
-
 	ssl on;
 	ssl_certificate /etc/ssl/llescure.42.fr.pem;
 	ssl_certificate_key /etc/ssl/llescure.42.fr.key;
 
-	autoindex on;
 	index index.html index.htm index.nginx-debian.html;
 
 ##
@@ -20,6 +19,11 @@ server {
 
 	ssl_protocols TLSv1.3;
 	ssl_prefer_server_ciphers off;
+
+	location / {
+		autoindex on;
+		try_files $uri $uri/ =404;
+	}
 
 ##
 #Error management
