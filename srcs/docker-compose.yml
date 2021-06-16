@@ -1,18 +1,20 @@
 version: '3'
 services:
-  wordpress_db:
-    container_name: wordpress_db
+  mariadb:
+    container_name: mariadb
     build:
       context: requirements/mariadb
       dockerfile: requirements/mariadb/Dockerfile
-      image: my_mariadb:v1
+      image: mariadb:v1
       volumes:
-          - /home/llescure/data:/var/lib/mysql
+          - mysql:/var/lib/mysql
       environment:
         MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE=${MYSQL_DATABASE}
         MYSQL_USER=${MYSQL_USER}
         MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      network:
+          docker_network
       ports: "3306:3306"
       restart: always
 services:
@@ -21,25 +23,45 @@ services:
         build:
           context: requirements/nginx
           dockerfile: requirements/nginx/Dockerfile
-          image: my_nginx:v1
-        ports: "443:443"
-        restart: always
+          image: nginx:v1
+      network:
+          docker_network
+      ports: "443:443"
+      volumes:
+          - wordpress:/var/www/html
+      restart: always
 services:
     wordpress:
       container_name: wordpress
       build:
         context: requirements/wordpress
         dockerfile: requirements/wordpress/Dockerfile
-        image: my_wordpress:v1
+        image: wordpress:v1
       depends on:
-        - wordpress_db
+        - mariadb
         - nginx
+      network:
+          docker_network
       ports: "9000:9000"
       volumes:
-          - /home/llescure/data:/var/www/html
+          - wordpress:/var/www/html
       restart: always
       environment:
         WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
         WORDPRESS_DB_USER={WORDPRESS_DB_USER}
         WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
         WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
+
+volumes:
+    wordpress:
+        driver: local
+        driver opts:
+            o: bind
+            type: none
+            device: /home/llescure/data/wordpress
+    mariadb:
+        driver: local
+        driver opts:
+            o: bind
+            type: none
+            device: /home/llescure/data/mariadb

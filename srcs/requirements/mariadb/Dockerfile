@@ -4,7 +4,8 @@ FROM debian:buster
 
 #Install necessary package
 
-RUN apt-get update && apt-get -y install mariadb-server
+RUN apt-get update && apt-get -y install mariadb-server \
+&& rm -rf /var/lib/apt/lists/*
 
 EXPOSE 3306
 
