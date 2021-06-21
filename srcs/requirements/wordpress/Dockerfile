@@ -2,7 +2,12 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install \
 wget \
-php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstring \
+php7.3 \
+php-mysql \
+php7.3-fpm \
+php-pdo \
+php-gd php-cli \
+php-mbstring \
 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www
@@ -24,4 +29,6 @@ RUN chown -R www-data: /var/www/wordpress
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+WORKDIR /.
+
+CMD ["php-fpm7.3 -F"]

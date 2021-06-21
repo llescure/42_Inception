@@ -19,4 +19,4 @@ RUN ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled \
 
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

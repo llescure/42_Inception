@@ -11,4 +11,4 @@ EXPOSE 3306
 
 #Command to launch mariadb
 
-CMD ["mysqld"]
+#CMD ["mysqld"]

@@ -7,7 +7,7 @@ services:
       dockerfile: requirements/mariadb/Dockerfile
       image: mariadb:v1
       volumes:
-          - mysql:/var/lib/mysql
+          - /home/llescure/data/mysql:/var/lib/mysql
       environment:
         MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -28,7 +28,7 @@ services:
           docker_network
       ports: "443:443"
       volumes:
-          - wordpress:/var/www/html
+          - /home/llescure/data/wordpress:/var/www/html
       restart: always
 services:
     wordpress:
@@ -44,24 +44,10 @@ services:
           docker_network
       ports: "9000:9000"
       volumes:
-          - wordpress:/var/www/html
+          - /home/llescure/data/wordpress:/var/www/html
       restart: always
       environment:
         WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
         WORDPRESS_DB_USER={WORDPRESS_DB_USER}
         WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
         WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
-
-volumes:
-    wordpress:
-        driver: local
-        driver opts:
-            o: bind
-            type: none
-            device: /home/llescure/data/wordpress
-    mariadb:
-        driver: local
-        driver opts:
-            o: bind
-            type: none
-            device: /home/llescure/data/mariadb
