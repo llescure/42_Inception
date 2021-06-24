@@ -17,6 +17,10 @@ RUN ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled \
 && rm -rf /etc/nginx/sites-enabled/default \
 && rm -rf /etc/nginx/sites-available/default
 
+COPY conf/index.html /var/www/html
+RUN rm -rf /var/www/html/index.nginx-debian.html \
+&& chown -R www-data: /var/www/html
+
 EXPOSE 443
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT ["nginx", "-g", "daemon off;"]

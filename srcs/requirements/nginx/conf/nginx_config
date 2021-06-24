@@ -8,7 +8,7 @@ server {
 	listen     443 ssl http2;
 	listen [::]:443 ssl http2;
 	server_name llescure.42.fr;
-	root /var/www/wordpress;
+	root /var/www/html;
 
 ##
 # SSL Settings
@@ -17,7 +17,7 @@ server {
 	ssl_certificate /etc/ssl/llescure.42.fr.pem;
 	ssl_certificate_key /etc/ssl/llescure.42.fr.key;
 
-	index index.html index.htm index.nginx-debian.html;
+	index index.html index.htm;
 
 ##
 #TSL settings

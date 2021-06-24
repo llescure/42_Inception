@@ -27,6 +27,11 @@ RUN wget https://wordpress.org/latest.tar.gz \
 COPY conf/wp-config.php /var/www/wordpress
 RUN chown -R www-data: /var/www/wordpress
 
+#Change the rights in php-fpm
+
+RUN
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+
 EXPOSE 9000
 
 WORKDIR /.
