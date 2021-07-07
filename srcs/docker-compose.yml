@@ -2,52 +2,49 @@ version: '3'
 services:
   mariadb:
     container_name: mariadb
-    build:
-      context: requirements/mariadb
-      dockerfile: requirements/mariadb/Dockerfile
-      image: mariadb:v1
-      volumes:
-          - /home/llescure/data/mysql:/var/lib/mysql
-      environment:
-        MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE=${MYSQL_DATABASE}
-        MYSQL_USER=${MYSQL_USER}
-        MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      network:
-          docker_network
-      ports: "3306:3306"
-      restart: always
+    build: requirements/mariadb
+    image: mariadb:v1
+    volumes:
+      - /home/llescure/data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    networks:
+      - docker_network
+    ports:
+      - "3306:3306"
+    restart: always
 services:
-    nginx:
-        container_name: nginx
-        build:
-          context: requirements/nginx
-          dockerfile: requirements/nginx/Dockerfile
-          image: nginx:v1
-      network:
-          docker_network
-      ports: "443:443"
-      volumes:
-          - /home/llescure/data/wordpress:/var/www/html
-      restart: always
-services:
-    wordpress:
-      container_name: wordpress
-      build:
-        context: requirements/wordpress
-        dockerfile: requirements/wordpress/Dockerfile
-        image: wordpress:v1
-      depends on:
-        - mariadb
-        - nginx
-      network:
-          docker_network
-      ports: "9000:9000"
-      volumes:
-          - /home/llescure/data/wordpress:/var/www/html
-      restart: always
-      environment:
-        WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
-        WORDPRESS_DB_USER={WORDPRESS_DB_USER}
-        WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
-        WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    image: wordpress:v1
+    networks:
+      - docker_network
+    ports:
+      - "9000:9000"
+    volumes:
+      - /home/llescure/data/wordpress:/var/www/wordpress
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
+      - WORDPRESS_DB_USER={WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
+        #services:
+        #nginx:
+        #container_name: nginx
+        #build: requirements/nginx
+        #image: nginx:v1
+        #networks:
+        #- docker_network
+        #ports:
+        #- "443:443"
+        #volumes:
+        # - /home/llescure/data/wordpress:/var/www/wordpress
+        #restart: always
+
+networks:
+  docker_network:

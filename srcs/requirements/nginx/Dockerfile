@@ -23,4 +23,4 @@ RUN rm -rf /var/www/html/index.nginx-debian.html \
 
 EXPOSE 443
 
-#ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

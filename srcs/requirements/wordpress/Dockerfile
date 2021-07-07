@@ -2,9 +2,9 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install \
 wget \
-php7.3 \
+php \
 php-mysql \
-php7.3-fpm \
+php-fpm \
 php-pdo \
 php-gd php-cli \
 php-mbstring \
@@ -29,11 +29,13 @@ RUN chown -R www-data: /var/www/wordpress
 
 #Change the rights in php-fpm
 
-RUN
-COPY conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+RUN rm -rf /etc/php/7.3/fpm/pool.d/www.conf
+COPY conf/www.conf /etc/php/7.3/fpm/pool.d/
+RUN chown -R www-data: /etc/php/7.3/fpm/pool.d/www.conf
+
+RUN mkdir /run/php \
+&& chown -R www-data: /run/php
 
 EXPOSE 9000
 
-WORKDIR /.
-
-CMD ["php-fpm7.3 -F"]
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
