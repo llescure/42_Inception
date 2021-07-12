@@ -8,7 +8,7 @@ server {
 	listen     443 ssl http2;
 	listen [::]:443 ssl http2;
 	server_name llescure.42.fr;
-	root /var/www/wordpress;
+	root /var/www/html;
 
 ##
 # SSL Settings

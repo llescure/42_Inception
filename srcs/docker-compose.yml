@@ -2,8 +2,7 @@ version: '3'
 services:
   mariadb:
     container_name: mariadb
-    build: requirements/mariadb
-    image: mariadb:v1
+    image: mariadb:latest
     volumes:
       - /home/llescure/data/mysql:/var/lib/mysql
     environment:
@@ -16,11 +15,11 @@ services:
     ports:
       - "3306:3306"
     restart: always
-services:
   wordpress:
     container_name: wordpress
-    build: requirements/wordpress
-    image: wordpress:v1
+    image: wordpress:latest
+    depends_on :
+      - mariadb
     networks:
       - docker_network
     ports:
@@ -33,18 +32,19 @@ services:
       - WORDPRESS_DB_USER={WORDPRESS_DB_USER}
       - WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
       - WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
-        #services:
-        #nginx:
-        #container_name: nginx
-        #build: requirements/nginx
-        #image: nginx:v1
-        #networks:
-        #- docker_network
-        #ports:
-        #- "443:443"
-        #volumes:
-        # - /home/llescure/data/wordpress:/var/www/wordpress
-        #restart: always
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    image: nginx:v1
+    depends_on :
+      - wordpress
+    networks:
+      - docker_network
+    ports:
+      - "443:443"
+    volumes:
+       - /home/llescure/data/wordpress:/var/www/wordpress
+    restart: always
 
 networks:
   docker_network:
