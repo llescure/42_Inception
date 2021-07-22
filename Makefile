@@ -6,9 +6,11 @@
 #    By: llescure <llescure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/03 10:40:53 by llescure          #+#    #+#              #
-#    Updated: 2021/06/17 10:11:39 by llescure         ###   ########.fr        #
+#    Updated: 2021/07/20 18:09:13 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+SHELL=/bin/bash
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)
@@ -20,23 +22,43 @@ BLUE		:= $(shell tput -Txterm setaf 6)
 WHITE		:= $(shell tput -Txterm setaf 7)
 RESET		:= $(shell tput -Txterm sgr0)
 
+COMPOSE_FILE=./srcs/docker-compose.yml
+
+all: run
+
 run: 
 	@echo "$(GREEN)Building containers $(RESET)"
-	docker-compose up -d
+	docker-compose -f $(COMPOSE_FILE) up
 
+run_background:
+	@echo "$(GREEN)Building containers in background $(RESET)"
+	docker-compose -f $(COMPOSE_FILE) up -d
 
-check:	
-	@echo "$(BLUE)Checking syntax of docker-compose.yml $(RESET)"
-	 docker-compose config
-
+debug:
+	@echo "$(GREEN)Building containers with log information $(RESET)"
+	docker-compose -f $(COMPOSE_FILE) --verbose up
 
 list:	
 	@echo "$(PURPLE)Listing all containers $(RESET)"
-	 docker-compose ps -a
+	 docker ps -a
 
+list_volumes:
+	@echo "$(PURPLE)Listing volumes $(RESET)"
+	docker volume ls
+
+delete_volumes:
+	@echo "$(RED)Deleting all volumes $(RESET)"
+	-docker volume rm `docker volume ls -q`
+
+delete_images:
+	@echo "$(RED)Deleting all images $(RESET)"
+	-docker rmi `docker images -a -q`
 
 stop: 
 	@echo "$(RED)Stopping containers $(RESET)"
-	docker-compose stop
+	docker-compose -f $(COMPOSE_FILE) down
 
-.PHONY: run check list stop
+clean: stop delete_volumes delete_images
+	@echo "$(RED)Deleting all $(RESET)"
+
+.PHONY: run run_background list list_volumes delete_volumes delete_images stop clean

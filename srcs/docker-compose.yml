@@ -1,41 +1,40 @@
-version: '3'
+version: '3.1'
 services:
   mariadb:
     container_name: mariadb
-    image: mariadb:latest
+    build: requirements/mariadb
     volumes:
-      - /home/llescure/data/mysql:/var/lib/mysql
+      - db_data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - docker_network
     ports:
       - "3306:3306"
     restart: always
   wordpress:
+    build: requirements/wordpress
     container_name: wordpress
-    image: wordpress:latest
-    depends_on :
+    depends_on: 
       - mariadb
     networks:
       - docker_network
     ports:
       - "9000:9000"
     volumes:
-      - /home/llescure/data/wordpress:/var/www/wordpress
+      - wordpress_data:/var/www/html/wordpress
     restart: always
     environment:
-      - WORDPRESS_DB_HOST={WORDPRESS_DB_HOST}
-      - WORDPRESS_DB_USER={WORDPRESS_DB_USER}
-      - WORDPRESS_DB_PASSWORD={WORDPRESS_DB_PASSWORD}
-      - WORDPRESS_DB_NAME={WORDPRESS_DB_NAME}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
   nginx:
     container_name: nginx
     build: requirements/nginx
-    image: nginx:v1
     depends_on :
       - wordpress
     networks:
@@ -43,8 +42,23 @@ services:
     ports:
       - "443:443"
     volumes:
-       - /home/llescure/data/wordpress:/var/www/wordpress
+      - wordpress_data:/var/www/html/wordpress
     restart: always
 
 networks:
   docker_network:
+
+volumes:
+  db_data: 
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/llescure/data/mysql
+      o: bind
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/llescure/data/wordpress
+      o: bind
+
