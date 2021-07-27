@@ -6,11 +6,9 @@
 #    By: llescure <llescure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/03 10:40:53 by llescure          #+#    #+#              #
-#    Updated: 2021/07/20 18:09:13 by llescure         ###   ########.fr        #
+#    Updated: 2021/07/23 12:27:01 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-SHELL=/bin/bash
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)

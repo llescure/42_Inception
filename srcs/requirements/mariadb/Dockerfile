@@ -12,6 +12,6 @@ EXPOSE 3306
 COPY ./tools/create_db.sh /usr/local/bin/
 RUN sh /usr/local/bin/create_db.sh 
 
-#Command to launch mariadb
+#Command to launch mariadb and enable the database to listen globally
 
-CMD ["mysqld"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]

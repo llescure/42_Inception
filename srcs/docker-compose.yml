@@ -1,23 +1,27 @@
 version: '3.1'
 services:
+
   mariadb:
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     container_name: mariadb
     build: requirements/mariadb
+    image: mariadb:v_final
     volumes:
       - db_data:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - docker_network
     ports:
       - "3306:3306"
     restart: always
+
   wordpress:
-    build: requirements/wordpress
     container_name: wordpress
+    build: requirements/wordpress
+    image: wordpress:v_final
     depends_on: 
       - mariadb
     networks:
@@ -27,14 +31,11 @@ services:
     volumes:
       - wordpress_data:/var/www/html/wordpress
     restart: always
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_HOST: ${MYSQL_HOST}
+
   nginx:
     container_name: nginx
     build: requirements/nginx
+    image: nginx:v_final
     depends_on :
       - wordpress
     networks:
