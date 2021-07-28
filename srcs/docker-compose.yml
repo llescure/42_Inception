@@ -19,6 +19,11 @@ services:
     restart: always
 
   wordpress:
+    environment: 
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOSTNAME=${MYSQL_HOSTNAME}
     container_name: wordpress
     build: requirements/wordpress
     image: wordpress:v_final

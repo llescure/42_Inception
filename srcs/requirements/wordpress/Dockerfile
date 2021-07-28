@@ -14,15 +14,15 @@ php-mbstring \
 
 #Copy the necessary tools to download wordpress
 
-COPY ./conf /var/www/html
+COPY ./conf/ /var/www/html
 COPY ./tools/create_wordpress.sh /usr/local/bin/
+
+WORKDIR /var/www/html
 
 #Create the folder to enable php start
 
 RUN mkdir /run/php \
 && chown -R www-data: /run/php
-
-WORKDIR /var/www/html
 
 #Launch script
 
