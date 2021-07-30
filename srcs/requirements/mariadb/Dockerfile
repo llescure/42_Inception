@@ -4,14 +4,14 @@ FROM debian:buster
 
 #Install necessary package
 
-RUN apt-get update && apt-get -y install mariadb-server \
+RUN apt-get update && apt-get -y install mariadb-server mariadb-client \
 && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 3306
 
 COPY ./tools/create_db.sh /usr/local/bin/
-RUN sh /usr/local/bin/create_db.sh 
+ENTRYPOINT ["create_db.sh"]
 
 #Command to launch mariadb and enable the database to listen globally
 
-CMD ["mysqld", "--bind-address=0.0.0.0"]
+CMD ["mysqld_safe", "--bind-address=0.0.0.0", "--user=llescure"]

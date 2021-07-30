@@ -1,23 +1,33 @@
 #!/bin/sh
 
-service mysql start
+mysql_install_db
+
+/etc/init.d/mysql start
 
 #Check if the database exists
 
-result=$(mysql -s -N -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='wordpress'")
-if [ -z "$result" ]
+
+if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
 then 
 
-# Otherwise create the database
-
-mysql -uroot -proot <<EOF
-CREATE DATABASE wordpress;
-GRANT ALL PRIVILEGES ON wordpress.* TO 'llescure'@'%' IDENTIFIED BY 'new1234';
-FLUSH PRIVILEGES;
-EXIT
-EOF
-else
 	echo "Database already exists"
+else
+# Create the database
+	mysql_secure_installation <<_EOF_
+
+Y
+n
+Y
+Y
+Y
+Y
+_EOF_
+
+	echo "UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE user = 'root' AND host = 'localhost'; FLUSH PRIVILEGES;" | mysql -u root
+	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+
 fi
 
-service mysql stop
+/etc/init.d/mysql stop
+
+exec "$@"
