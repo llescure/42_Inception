@@ -5,30 +5,28 @@ FROM debian:buster
 RUN apt-get update && apt-get -y install \
 wget \
 php \
+php-cgi \
 php-mysql \
 php-fpm \
 php-pdo \
 php-gd php-cli \
 php-mbstring \
-mariadb-client \
 && rm -rf /var/lib/apt/lists/*
 
 #Copy the necessary tools to download wordpress
 
 COPY ./conf/www.conf /var/www/html/
-COPY ./tools/create_wordpress.sh /usr/local/bin/
-
-WORKDIR /var/www/html
 
 #Create the folder to enable php start
 
-RUN mkdir /run/php \
-&& chown -R www-data: /run/php
+RUN mkdir /run/php
 
 #Launch script
 
-RUN sh /usr/local/bin/create_wordpress.sh \
-&& chown -R www-data: /var/www/html/
+COPY ./tools/create_wordpress.sh /usr/local/bin/
+ENTRYPOINT ["create_wordpress.sh"]
+
+WORKDIR /var/www/html/
 
 EXPOSE 9000
 
