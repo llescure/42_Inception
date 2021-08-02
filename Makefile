@@ -6,7 +6,7 @@
 #    By: llescure <llescure@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/03 10:40:53 by llescure          #+#    #+#              #
-#    Updated: 2021/07/30 09:29:40 by llescure         ###   ########.fr        #
+#    Updated: 2021/08/02 09:22:31 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,14 +29,14 @@ run:
 	@sudo mkdir -p /home/llescure/data/wordpress
 	@sudo mkdir -p /home/llescure/data/mysql
 	@echo "$(GREEN)Building containers ... $(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) up
+	@docker-compose -f $(COMPOSE_FILE) up --build
 
 up:
 	@echo "$(GREEN)Building files for volumes ... $(RESET)"
 	@sudo mkdir -p /home/llescure/data/wordpress
 	@sudo mkdir -p /home/llescure/data/mysql
 	@echo "$(GREEN)Building containers in background ... $(RESET)"
-	@docker-compose -f $(COMPOSE_FILE) up -d
+	@docker-compose -f $(COMPOSE_FILE) up -d --build
 
 debug:
 	@echo "$(GREEN)Building files for volumes ... $(RESET)"

@@ -6,25 +6,31 @@ mysql_install_db
 
 #Check if the database exists
 
-
 if [ -d "/var/lib/mysql/$MYSQL_DATABASE" ]
 then 
 
 	echo "Database already exists"
 else
-# Create the database
-	mysql_secure_installation <<_EOF_
 
+# Set root option so that connexion without root password is not possible
+
+mysql_secure_installation <<_EOF_
 Y
-n
+Y
+root4life
+root4life
 Y
 Y
 Y
 Y
 _EOF_
 
-	echo "UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE user = 'root' AND host = 'localhost'; FLUSH PRIVILEGES;" | mysql -u root
-	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+
+#Create user
+	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+
+#Import database
+mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql
 
 fi
 

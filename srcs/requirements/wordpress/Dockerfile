@@ -10,11 +10,12 @@ php-fpm \
 php-pdo \
 php-gd php-cli \
 php-mbstring \
+mariadb-client \
 && rm -rf /var/lib/apt/lists/*
 
 #Copy the necessary tools to download wordpress
 
-COPY ./conf/ /var/www/html
+COPY ./conf/www.conf /var/www/html/
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 
 WORKDIR /var/www/html
