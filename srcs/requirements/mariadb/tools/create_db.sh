@@ -15,17 +15,21 @@ else
 # Set root option so that connexion without root password is not possible
 
 mysql_secure_installation <<_EOF_
-Y
+
 Y
 root4life
 root4life
 Y
-Y
+n
 Y
 Y
 _EOF_
 
-#Create user
+#Add a root user on 127.0.0.1 to allow remote connexion
+
+	echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
+
+#Create database and user for wordpress
 	echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -uroot
 
 #Import database
