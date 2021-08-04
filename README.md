@@ -99,6 +99,7 @@ https://www.digitalocean.com/community/tutorials/how-to-allow-remote-access-to-m
 
 - https://tech.osteel.me/posts/docker-for-local-web-development-part-1-a-basic-lemp-stack
 - https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose
+- https://medium.com/rate-engineering/using-docker-containers-to-run-a-distributed-application-locally-eeabd360bca3
 
 # How to connect to mysql remotely? #
 
