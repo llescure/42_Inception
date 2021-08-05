@@ -26,9 +26,7 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 
 `sudo apt-get remove docker-compose`
 
-`sudo rm -rf docker-compose`
-
-`sudo rm /usr/local/bin/docker-compose`
+`sudo rm -f /usr/local/bin/docker-compose`
 
 * Install newest version
 
