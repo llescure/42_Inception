@@ -30,14 +30,12 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 
 `sudo rm /usr/local/bin/docker-compose`
 
-`sudo chmod +x /usr/local/bin/docker-compose`
-
-`sudo chmod +x /usr/local/bin/docker-compose`
-
 * Install newest version
 
 `sudo curl -L "https://github.com/docker/compose/releases/download/1.29/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 (version 29.3 at the time of this readme)`
+
+`sudo chmod +x /usr/local/bin/docker-compose`
 
 ### Stop the nginx and mysql service which are set by default on 42 vm ###
 
