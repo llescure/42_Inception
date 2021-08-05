@@ -31,7 +31,7 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 * Install newest version
 
 `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Darwin-x86_64" -o /usr/local/bin/docker-compose
-(version 29.3 at the time of this readme)`
+(version 29.2 at the time of this readme)`
 
 `sudo chmod +x /usr/local/bin/docker-compose`
 
@@ -40,6 +40,12 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 `sudo service nginx stop`
 
 `sudo service mysql stop`
+
+### If you get the following error message : Docker compose up : error while fecthing server API version ###
+
+`sudo gpasswd -a $USER docker`
+
+`newgrp docker`
 
 # How to build your docker-compose.yml? #
 
