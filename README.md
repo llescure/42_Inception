@@ -30,6 +30,10 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 
 `sudo rm /usr/local/bin/docker-compose`
 
+`sudo chmod +x /usr/local/bin/docker-compose`
+
+`sudo chmod +x /usr/local/bin/docker-compose
+
 * Install newest version
 
 `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
