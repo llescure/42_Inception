@@ -14,11 +14,11 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 
 `sudo adduser login`
 
-`sudo udermod -aG sudo login`
+`sudo usermod -aG sudo login`
 
-`sudo udermod -aG docker login`
+`sudo usermod -aG docker login`
 
-`sudo udermod -aG vboxsf login (if you use shared folders on your vm)`
+`sudo usermod -aG vboxsf login (if you use shared folders on your vm)`
 
 ### Get the latest version of docker-compose to be able to use docker-compose with a makefile ###
 
