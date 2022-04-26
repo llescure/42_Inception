@@ -41,7 +41,7 @@ Use docker-compose to create a LEMP stack (L for Linux, E for Nginx, M for Maria
 
 `sudo service mysql stop`
 
-### If you get the following error message : Docker compose up : error while fecthing server API version ###
+### If you get the following error message : Docker compose up : error while fetching server API version ###
 
 `sudo gpasswd -a $USER docker`
 
