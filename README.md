@@ -83,7 +83,7 @@ https://www.digitalocean.com/community/tutorials/understanding-and-implementing-
 https://www.digitalocean.com/community/tools/nginx?domains.0.php.wordPressRules=true&global.app.lang=fr
 
 ### Wordpress and php ###
-You need to edit www.conf and place it to /etc/php/7.3(the usual version of php on 42 vm)/fpm/pool.d and wp-content.php to be able not to access wordpress installation page when you access your site at https://login.42.fr
+You need to edit www.conf and place it to /etc/php/7.3(the usual version of php on 42 vm)/fpm/pool.d and wp-content.php to disable access wordpress installation page when you access your site at https://login.42.fr
 
 You can launch the service with /usr/sbin/php-fpm7.3 (or another version if you don't use 42 vm) -F
 
