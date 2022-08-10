@@ -14,8 +14,6 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - docker_network
-    ports:
-      - "3306:3306"
     restart: always
 
   wordpress:
@@ -31,8 +29,6 @@ services:
       - mariadb
     networks:
       - docker_network
-    ports:
-      - "9000:9000"
     volumes:
       - wordpress_data:/var/www/html/wordpress
     restart: always
