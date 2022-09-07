@@ -140,3 +140,8 @@ https://www.educative.io/blog/docker-compose-tutorial
 https://cloud.google.com/architecture/best-practices-for-building-containers
 
 Overhaul the documentation provided by digital ocean is well documented and available in french
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
