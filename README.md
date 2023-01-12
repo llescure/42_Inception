@@ -103,7 +103,7 @@ https://www.digitalocean.com/community/tutorials/comment-installer-mysql-sur-ubu
 
 https://www.digitalocean.com/community/tutorials/how-to-allow-remote-access-to-mysql
 
-**Overhaul tutorial well explained:**
+**Overall tutorial well explained:**
 
 - https://tech.osteel.me/posts/docker-for-local-web-development-part-1-a-basic-lemp-stack
 - https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose
@@ -139,4 +139,4 @@ https://www.educative.io/blog/docker-compose-tutorial
 
 https://cloud.google.com/architecture/best-practices-for-building-containers
 
-Overhaul the documentation provided by digital ocean is well documented and available in french
+Overall the documentation provided by digital ocean is well documented and available in french
